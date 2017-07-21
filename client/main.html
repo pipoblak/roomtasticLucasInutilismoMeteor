@@ -1,0 +1,105 @@
+<head>
+  <title>Roomtastic Controll</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <script src="https://use.fontawesome.com/3d3cbe1fc9.js"></script>
+    <script src="https://cdn.jsdelivr.net/sockjs/1/sockjs.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+
+</head>
+
+<body>
+  {{> main}}
+</body>
+
+
+<template name="main">
+  <div class="body-holder">
+    <div class="app-bar">
+      <img src="assets/roomtasticLogo.svg" class="app-bar-logo"/>
+    </div>
+    <div class="loading">
+      <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
+    </div>
+    <div class="content" style="opacity:0">
+      <div class="current-element">
+        <img src="http://i.imgur.com/RRhUXhz.jpg" class="current-element-image animated slideInRight"/>
+      </div>
+      <div class="element-menu">
+        <div>
+          <div class="element-menu-item selected" id="0" data-id="1">
+              <img src="http://i.imgur.com/RRhUXhz.jpg" class="animated bounceIn" />
+          </div>
+          <div class="element-menu-item" id="0" data-id="2">
+              <img src="http://i.imgur.com/3A0rSKB.png" class="animated bounceIn" />
+          </div>
+          <div class="element-menu-item" id="1" data-id="1">
+              <img src="http://i.imgur.com/RRhUXhz.jpg" class="animated bounceIn" />
+          </div>
+          <div class="element-menu-item" id="1" data-id="2">
+              <img src="http://i.imgur.com/RRhUXhz.jpg" class="animated bounceIn" />
+          </div>
+          <div class="element-chain">
+            <i class="fa fa-link fa-fw"></i>
+          </div>
+        </div>
+      </div>
+      <div class="options">
+        <div>
+          <div class="option" id="btn-color-picker">
+            <div class="option-holder">
+              <span class="icon-option"><i class="fa fa-paint-brush" aria-hidden="true"></i></span>
+              <span class="option-label">ALTERAR</span>
+              <span class="option-label">COR</span>
+            </div>
+          </div>
+          <!-- <div class="option" id="btn-effects">
+            <div class="option-holder">
+              <span class="icon-option"><i class="fa fa-magic" aria-hidden="true"></i></span>
+              <span class="option-label">ALTERAR</span>
+              <span class="option-label">EFEITO</span>
+            </div>
+          </div> -->
+        </div>
+
+      </div>
+      <div class="actions">
+        <div class="actions-holder">
+          <div class="action">
+            <span class="action-icon"><i class="fa fa-power-off" aria-hidden="true"></i></span>
+            <span>LIGAR</span>
+            <span>DESLIGAR</span>
+          </div>
+          <div class="action">
+            <span class="action-icon"><i class="fa fa-adjust" aria-hidden="true"></i></span>
+            <span>MODO</span>
+            <span>NOTURNO</span>
+          </div>
+          <div class="action">
+            <span class="action-icon"><i class="fa fa-star-o" aria-hidden="true"></i></span>
+            <span>MODO</span>
+            <span>CHROMA</span>
+          </div>
+          <div class="action">
+            <span class="action-icon"><i class="fa fa-diamond" aria-hidden="true"></i></span>
+            <span>MODO</span>
+            <span>INUTILISMO</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-color-picker" style="opacity:0" id="modal-holder">
+      <div class="modal">
+        <input type='text' id="color-picker" />
+
+      </div>
+    </div>
+    <!-- <div class="modal-effects" style="opacity:0" id="modal-holder">
+      <div class="modal">
+        <select class="" name="">
+
+        </select>
+      </div>
+    </div> -->
+  </div>
+
+</template>
