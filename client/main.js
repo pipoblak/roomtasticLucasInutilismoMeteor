@@ -15,6 +15,7 @@ function sleep(milliseconds) {
 var timerPing;
 var timePong;
 var ws;
+var lastMessage="";
 Template.main.onRendered(function helloOnCreated() {
   $(".modal-color-picker").attr("style","opacity:1");
   $(".modal-color-picker").hide();
@@ -26,7 +27,13 @@ Template.main.onRendered(function helloOnCreated() {
   picker.on("change", function(color) {
       color =CP.HEX2RGB(color);
       if(ws.readyState==1){
-          ws.send("@" +$($(document).find(".element-menu-item.selected")[0]).attr("id")  + "&#R" + color[0] + "G" + color[1] + "B" + color[2] + "S" + $($(document).find(".element-menu-item.selected")[0]).attr("data-id") );
+        var message = "@" + $($(document).find(".element-menu-item.selected")[0]).attr("id")  + "&#R" + color[0] + "G" + color[1] + "B" + color[2] + "S" + $($(document).find(".element-menu-item.selected")[0]).attr("data-id");
+        if(message != lastMessage){
+            ws.send(message);
+            lastMessage=message;
+        }
+
+
       }
 
   });
