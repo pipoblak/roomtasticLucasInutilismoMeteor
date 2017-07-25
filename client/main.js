@@ -27,9 +27,10 @@ Template.main.onRendered(function helloOnCreated() {
   picker.on("change", function(color) {
       color =CP.HEX2RGB(color);
       if(ws.readyState==1){
-        var message = "@" + $($(document).find(".element-menu-item.selected")[0]).attr("id")  + "&#R" + color[0] + "G" + color[1] + "B" + color[2] + "S" + $($(document).find(".element-menu-item.selected")[0]).attr("data-id");
+        var message = "@" + $($(document).find(".element-menu-item.selected")[0]).attr("id")  + "&#R" + color[0] + "G" + color[1] + "B" + color[2] + "S" + $($(document).find(".element-menu-item.selected")[0]).attr("data-id") +  "|";
         if(message != lastMessage){
             ws.send(message);
+            sleep(250);
             lastMessage=message;
         }
 
@@ -80,6 +81,8 @@ Template.main.events({
   'click .modal-color-picker'(event, instance) {
      $(event.target.closest("#modal-holder")).hide();
      picker.exit();
+     ws.send(lastMessage);
+
   },
   'click .modal'(event, instance) {
       event.stopPropagation();
