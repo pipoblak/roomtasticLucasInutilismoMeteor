@@ -106,6 +106,7 @@ Template.main.events({
   'click .social-button'(event, instance) {
     $(document).find(".social-button.selected").removeClass("selected");
     $(event.target).closest(".social-button").addClass("selected");
+    console.log($(event.target).attr("id"));
   },
   'click .element-menu-item'(event, instance) {
     $(document).find(".element-menu-item.selected").removeClass("selected");
