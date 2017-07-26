@@ -19,8 +19,8 @@ var lastMessage="";
 Template.main.onRendered(function helloOnCreated() {
   $(".modal-color-picker").attr("style","opacity:1");
   $(".modal-color-picker").hide();
-  $(".modal-effects").attr("style","opacity:1");
-  $(".modal-effects").hide();
+  $(".modal-metric").attr("style","opacity:1");
+  $(".modal-metric").hide();
   $(".content").attr("style","opacity:1");
   $(".content").hide();
   picker = new CP(document.querySelector('#color-picker'),false);
@@ -97,9 +97,16 @@ Template.main.events({
   'click #btn-effects'(event, instance) {
       $(".modal-effects").show();
   },
-  'click .modal-effects'(event, instance) {
+  'click .menu-app-bar'(event, instance) {
+      $(".modal-metric").show();
+  },
+  'click .modal-metric'(event, instance) {
     $(event.target.closest("#modal-holder")).hide();
       // $(".modal").closest("div").hide();
+  },
+  'click .social-button'(event, instance) {
+    $(document).find(".social-button.selected").removeClass("selected");
+    $(event.target).closest(".social-button").addClass("selected");
   },
   'click .element-menu-item'(event, instance) {
     $(document).find(".element-menu-item.selected").removeClass("selected");
