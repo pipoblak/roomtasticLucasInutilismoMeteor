@@ -81,9 +81,10 @@ Template.main.events({
   'click .modal-color-picker'(event, instance) {
      $(event.target.closest("#modal-holder")).hide();
      picker.exit();
-     ws.send(lastMessage);
-
-  },
+     if(ws.readyState==1){
+       ws.send(lastMessage);
+     }
+   },
   'click .modal'(event, instance) {
       event.stopPropagation();
 
