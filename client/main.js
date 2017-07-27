@@ -106,8 +106,17 @@ Template.main.events({
   },
   'click .social-button'(event, instance) {
     $(document).find(".social-button.selected").removeClass("selected");
-    $(event.target).closest(".social-button").addClass("selected");
-    console.log($(event.target).attr("id"));
+    var target =   $(event.target).closest(".social-button");
+    target.addClass("selected");
+    var message = "@7&;" + target.attr("id") + "|";
+    ws.send(message);
+    lastMessage = message;
+  },
+  'click .action'(event, instance) {
+    var target =   $(event.target).closest(".action");
+    var message = "@" + $($(document).find(".element-menu-item.selected")[0]).attr("id")  + "&;" + target.attr("id") + "S" + $($(document).find(".element-menu-item.selected")[0]).attr("data-id") +  "|";
+    ws.send(message);
+    lastMessage = message;
   },
   'click .element-menu-item'(event, instance) {
     $(document).find(".element-menu-item.selected").removeClass("selected");
