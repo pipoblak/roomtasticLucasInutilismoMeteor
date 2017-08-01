@@ -27,18 +27,29 @@ Template.main.onRendered(function helloOnCreated() {
   picker.on("change", function(color) {
       color =CP.HEX2RGB(color);
       if(ws.readyState==1){
-        var message = "@" + $($(document).find(".element-menu-item.selected")[0]).attr("id")  + "&#R" + color[0] + "G" + color[1] + "B" + color[2] + "S" + $($(document).find(".element-menu-item.selected")[0]).attr("data-id") +  "|";
-        if(message != lastMessage){
-            ws.send(message);
-            sleep(250);
-            lastMessage=message;
+        if($($(document).find(".element-chain")[0]).hasClass("selected")){
+          var message1 = "@0&#R" + color[0] + "G" + color[1] + "B" + color[2] + "S0|";
+          var message2 = "@1&#R" + color[0] + "G" + color[1] + "B" + color[2] + "S0|";
+          ws.send(message1);
+          ws.send(message2);
+          sleep(250);
+        }
+        else{
+          var message = "@" + $($(document).find(".element-menu-item.selected")[0]).attr("id")  + "&#R" + color[0] + "G" + color[1] + "B" + color[2] + "S" + $($(document).find(".element-menu-item.selected")[0]).attr("data-id") +  "|";
+          if(message != lastMessage){
+              ws.send(message);
+              sleep(250);
+              lastMessage=message;
+          }
+
+
         }
 
 
       }
 
   });
-    ws = new WebSocket('ws://192.168.15.30:82');
+    ws = new WebSocket('ws://192.168.15.13:82');
     ws.onopen = function()
     {
        // Web Socket is connected, send data using send()
@@ -114,9 +125,18 @@ Template.main.events({
   },
   'click .action'(event, instance) {
     var target =   $(event.target).closest(".action");
-    var message = "@" + $($(document).find(".element-menu-item.selected")[0]).attr("id")  + "&;" + target.attr("id") + "S" + $($(document).find(".element-menu-item.selected")[0]).attr("data-id") +  "|";
-    ws.send(message);
-    lastMessage = message;
+    if($($(document).find(".element-chain")[0]).hasClass("selected")){
+      var message1="@0&;" + target.attr("id") + "S0|";
+      var message2="@1&;" + target.attr("id") + "S0|";
+      ws.send(message1);
+      ws.send(message2);
+    }
+    else{
+      var message = "@" + $($(document).find(".element-menu-item.selected")[0]).attr("id")  + "&;" + target.attr("id") + "S" + $($(document).find(".element-menu-item.selected")[0]).attr("data-id") +  "|";
+      ws.send(message);
+      lastMessage = message;
+    }
+
   },
   'click .element-menu-item'(event, instance) {
     $(document).find(".element-menu-item.selected").removeClass("selected");
