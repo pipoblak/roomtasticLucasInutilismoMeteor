@@ -23,6 +23,9 @@ Template.main.onRendered(function helloOnCreated() {
   $(".modal-metric").hide();
   $(".content").attr("style","opacity:1");
   $(".content").hide();
+  
+  $(".loading").hide();
+  $(".content").fadeIn();
   picker = new CP(document.querySelector('#color-picker'),false);
   picker.on("change", function(color) {
       color =CP.HEX2RGB(color);
