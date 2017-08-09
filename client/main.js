@@ -16,14 +16,18 @@ var timerPing;
 var timePong;
 var ws;
 var lastMessage="";
+var defaultIp="192.168.1.200"
+CurrentIp = new Ground.Collection('CurrentIp', { connection: null });
 Template.main.onRendered(function helloOnCreated() {
   $(".modal-color-picker").attr("style","opacity:1");
   $(".modal-color-picker").hide();
   $(".modal-metric").attr("style","opacity:1");
   $(".modal-metric").hide();
+  $(".modal-setIp").attr("style","opacity:1");
+  $(".modal-setIp").hide();
   $(".content").attr("style","opacity:1");
   $(".content").hide();
-  
+
   $(".loading").hide();
   $(".content").fadeIn();
   picker = new CP(document.querySelector('#color-picker'),false);
@@ -52,37 +56,7 @@ Template.main.onRendered(function helloOnCreated() {
       }
 
   });
-    ws = new WebSocket('ws://192.168.15.13:82');
-    ws.onopen = function()
-    {
-       // Web Socket is connected, send data using send()
-       console.log();
-       ws.send("{'Device':{'name':'mobile','macAddress':'mobile','owner':'mobile'}}");
-    };
-
-    ws.onmessage = function (evt)
-    {
-       var received_msg = evt.data;
-       if(received_msg=="Connected"){
-         $(".loading").hide();
-         $(".content").fadeIn();
-       }
-       else if(received_msg=="!"){
-         ws.send("ping");
-         timerPing= performance.now();
-       }
-       else if (received_msg=="pong") {
-          timerPong= performance.now();
-          console.log((timerPong-timerPing)+"ms");
-       }
-       //console.log(received_msg);
-    };
-
-    ws.onclose = function()
-    {
-       // websocket is closed.
-       console.log("Connection is closed...");
-    };
+  createWebsocketConnection();
 });
 //
 // Template.hello.helpers({
@@ -158,4 +132,72 @@ Template.main.events({
     }
 
   },
+  'click .app-bar-logo'(event, instance) {
+    $(".modal-setIp").show();
+    var currentIp = CurrentIp.find().fetch()[0];
+    console.log(CurrentIp.find().fetch())
+    if(currentIp != undefined ){
+      $("#ip1").val(currentIp.ip.ip1);
+      $("#ip2").val(currentIp.ip.ip2);
+      $("#ip3").val(currentIp.ip.ip3);
+      $("#ip4").val(currentIp.ip.ip4);
+    }
+  },
+  'click .modal-setIp'(event, instance) {
+    $(event.target.closest("#modal-holder")).hide();
+      // $(".modal").closest("div").hide();
+  },
+  'click .button-ip'(event, instance) {
+    CurrentIp.clear();
+    CurrentIp.insert(
+      {ip:
+        {ip1:$('#ip1').val(),
+        ip2:$('#ip2').val(),
+        ip3:$('#ip3').val(),
+        ip4:$('#ip4').val()}
+      },function(e,a){
+         createWebsocketConnection();
+      });
+
+  },
 });
+
+function createWebsocketConnection(){
+  var ip = CurrentIp.find().fetch()[0];
+  if(ip==undefined){
+    ip = defaultIp;
+  }
+  else{
+    ip = ip.ip.ip1 + "." +ip.ip.ip2 + "." +ip.ip.ip3 + "." +ip.ip.ip4;
+  }
+  ws = new WebSocket('ws://' + ip +':82');
+  ws.onopen = function()
+  {
+     // Web Socket is connected, send data using send()
+     ws.send("{'Device':{'name':'mobile','macAddress':'mobile','owner':'mobile'}}");
+  };
+
+  ws.onmessage = function (evt)
+  {
+     var received_msg = evt.data;
+     if(received_msg=="Connected"){
+       $(".loading").hide();
+       $(".content").fadeIn();
+     }
+     else if(received_msg=="!"){
+       ws.send("ping");
+       timerPing= performance.now();
+     }
+     else if (received_msg=="pong") {
+        timerPong= performance.now();
+        console.log((timerPong-timerPing)+"ms");
+     }
+     //console.log(received_msg);
+  };
+
+  ws.onclose = function()
+  {
+     // websocket is closed.
+     console.log("Connection is closed...");
+  };
+}

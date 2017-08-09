@@ -236,7 +236,15 @@ body,html{
   flex-direction: column;
   top: 0;
 }
-
+.modal-setIp{
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  z-index: 1;
+  flex-direction: column;
+  top: 0;
+}
 .social-menu{
   display: flex;
   flex-direction: row;
@@ -256,4 +264,20 @@ body,html{
   color:white;
   font-size: 10vw;
   padding: 16px;
+}
+.ip-holder{
+  display: flex;
+  flex-direction: row;
+  margin: auto;
+  width: 80%;
+  input{
+    width: 10%;
+    margin: auto;
+    text-align: center;
+  }
+}
+.button-ip{
+  width: 20%;
+  margin: auto;
+  height: 10%;
 }
